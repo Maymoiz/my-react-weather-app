@@ -1,14 +1,16 @@
 import React, {useState} from "react";
 import axios from "axios";
 import './weather.css';
+import FormattedDate from "./FormattedDate";
 
-export default function Weather(props) {
+ export default function Weather(props) {
     const [ready, setReady] = useState(false);
     const [temperature, setTemperature] = useState(null);
     const [description, setDescription] = useState(null);
     const [humidity, setHumidity] = useState(null);
     const [wind, setWind] = useState(null);
     const [icon, setIcon] = useState(null);
+    const [date, setDate] = useState(null);
     
    function handleResponse(response){
     console.log(response.data);
@@ -17,6 +19,7 @@ export default function Weather(props) {
        setHumidity(response.data.main.humidity);
        setWind(response.data.wind.speed);
        setIcon(response.data.weather[0].icon);
+       setDate(new Date(response.data.dt * 1000));
        setReady(true);
    }
 
@@ -37,7 +40,7 @@ export default function Weather(props) {
         
       <h1>Pretoria</h1>
       <ul>
-        <li>Friday 13:15</li>
+        <li><FormattedDate date={date} /></li>
         <li className="text-capitalize"> {description}</li>
       </ul>
       <br/><br/>
